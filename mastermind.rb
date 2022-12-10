@@ -1,5 +1,5 @@
 class Rows
-attr_accessor :single_row
+attr_accessor :single_row, :row_1, :row_2
 
 def initialize
 @single_row = 
@@ -7,10 +7,12 @@ def initialize
 +---+---+---+---+---+"
 end
 
-def refresh_display(row_1, player)
+def refresh_display(row_1, row_2, row_3)     # player, row_4, row_5, row_6, row_7, row_8, row_9, row_10, row_11, row_12)
   puts "\e[2J"
-  row_1.single_row[1]=(player.colors[player.input])
-  puts row_1.single_row
+  (1..3).each do |i|
+  row = "row_#{i}" ##how should I do this?
+  puts row.single_row
+  end
 end
 
 def to_s
@@ -55,7 +57,7 @@ Enter your guess: 1🟦 2🟨 3🟥 4🟪 5🟧"
 end
 
 class Player
-  attr_reader :colors, :input, :order
+  attr_reader :colors, :input, :order, :turn
   def initialize
     @colors = {
       1 => "🟦",
@@ -65,6 +67,8 @@ class Player
       5 => "🟧",
     }
     generate_order #when player is initialized generate new color order, maybe new game will just be new instance of player and rows
+
+    @turn = 1
   end
 
   def get_input
@@ -76,12 +80,35 @@ class Player
     @order = Array.new(5) { color_array.sample }
     end
 
+  def player_turn 
+    @turn += 1
+  end
+
+
 end
 
+
+#single_row[1]=(player.colors[player.input]) #need this to print color into row
 row_1 = Rows.new
+row_2 = Rows.new
+row_3 = Rows.new
+row_4 = Rows.new
+row_5 = Rows.new
+row_6 = Rows.new
+row_7 = Rows.new
+row_8 = Rows.new
+row_9 = Rows.new
+row_10 = Rows.new
+row_11 = Rows.new
+row_12 = Rows.new
+
 player = Player.new
+row_1.refresh_display(player, row_1, row_2, row_3, row_4, row_5, row_6, row_7, row_8, row_9, row_10, row_11, row_12)
+
+
 player.get_input
-row_1.refresh_display(row_1, player)
+
+row_1.refresh_display(player, row_1, row_2, row_3, row_4, row_5, row_6, row_7, row_8, row_9, row_10, row_11, row_12)
 puts row_1
 puts player.colors
 
