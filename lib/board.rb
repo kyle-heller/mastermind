@@ -2,9 +2,9 @@
 
 # Handles board
 class Board
+
   DEFAULT_BOARD = 
-    "   ⬛️  ⬛️  ⬛️  ⬛️           
-  +---+---+---+---+".freeze
+    "⬛️  ⬛️  ⬛️  ⬛️\n\n".freeze
 
   COLORS_AND_ASSETS = {
     1 => "🟦",
@@ -22,6 +22,14 @@ class Board
   def initialize
     @current_guess = 0
     @last_guess = 0
+  end
+
+  def self.colors_and_assets
+    COLORS_AND_ASSETS
+  end
+
+  def self.default_board
+    DEFAULT_BOARD
   end
 
 end

@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 # AI Module
-module AI
-  def generate_code(game)
-    # How many numbers do we need in the code and how many colors are there?
-    4.times { game.code << rand(1..5) }
+class AI
+  def self.generate_code(game)
+    4.times { game.code << rand(1..4).to_s }
   end
 end
 

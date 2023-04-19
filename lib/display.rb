@@ -6,7 +6,12 @@ class Display
     test
   end
 
-  def display
+  def self.display_guess(guess)
+    guess.each do |gv|
+      print Board.colors_and_assets[gv.to_i]
+      print "  "
+    end
+    print "| "
   end
 
   def clear 

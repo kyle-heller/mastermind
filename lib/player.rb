@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'io/console'
 
 # player class
 class Player
@@ -10,8 +11,8 @@ class Player
   end
 
   def get_guess
-    puts 'Enter your guess: 1🟦 2🟨 3🟥 4🟪 5🟧'
+    print "Guess: "
     @guess = gets.chomp.chars
+    # @guess = STDIN.noecho(&:gets).chomp.chars
   end
-
 end
