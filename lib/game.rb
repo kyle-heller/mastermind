@@ -7,37 +7,97 @@ require_relative 'ai'
 
 # game class
 class Game
-  attr_accessor :code, :round_num
+  attr_accessor :code, :round_num, :mode, :player
 
   def initialize
     # @code = ["1", "1", "4", "4"]
+    @player = ""
     @code = []
     @round_num = 1
+    Game.intro
     play
   end
 
   def play
-    player = Player.new('Kyle')
-    # generate_code
-    # lets get this working with a known code first
-    AI.generate_code(self)
-    puts Board.default_board
-    loop do
-      guess = player.get_guess
-      until guess.length == 4
-        puts "Code has four colors"
-        guess = player.get_guess
+    gamemode
+    if @mode == 1
+      loop do
+        guess = @player.get_guess
+        until guess.length == 4
+          puts "Code has four colors"
+          guess = player.get_guess
+        end
+        print "Round #{"%02d" % round_num} - "
+        @round_num += 1
+        Display.display_guess(player.guess)
+        check_guess(player.guess)
       end
-      print "Round #{"%02d" % round_num} - "
-      @round_num += 1
-      Display.display_guess(player.guess)
-      check_guess(player.guess)
+    elsif @mode == 2
+      @player.get_possible_codes
+      loop do
+        sleep(1.7)
+        @player.generate_guess(self)
+        print "Round #{"%02d" % round_num} - "
+        @round_num += 1
+        Display.display_guess(player.guess)
+        check_guess(player.guess)
+      end
     end
   end
 
-  def gamemode
-    # single player (codebreaker/codecracker), two-player?
+  def self.intro
+    Display.clear_screen
+    puts "Welcome to Mastermind!\n\n"
+    puts "Mastermind is a code-breaking game for two players.\n\n"
+    puts "In this version it's you against the computer.\n\n"
+    puts "You get 12 attempts to guess the code set by the code-maker.\n\n"
+    puts "🟢 - correct colors in the correct positions\n"
+    puts "⚪️ - correct colors in the wrong positions\n\n"
+
+    puts "Enter your guess - 1🟦 2🟨 3🟥 4🟪 5🟧\n\n"
   end
+
+  def self.computer_intro
+    Display.clear_screen
+    puts "Welcome to Mastermind!\n\n"
+    puts "Mastermind is a code-breaking game for two players.\n\n"
+    puts "In this version it's you against the computer.\n\n"
+    puts "You get 12 attempts to guess the code set by the code-maker.\n\n"
+    puts "🟢 - correct colors in the correct positions\n"
+    puts "⚪️ - correct colors in the wrong positions\n\n"
+  end
+
+  def gamemode
+    puts "Please select gameplay mode:
+    1 - Code-breaker
+    2 - Code-maker"
+    mode = gets.chomp
+    until mode == "1" or mode == "2"
+      Display.clear_screen
+      Game.intro
+      gamemode
+    end
+    if mode == '1'
+      @mode = 1
+      @player = Player.new('Human')
+      AI.generate_code(self)
+      Display.clear_screen
+      Game.intro
+    elsif mode == '2'
+      @mode = 2
+      @player = Player.new('Computer')
+      @player.get_code(self)
+      Display.clear_screen
+      Game.computer_intro
+      Display.display_code(@code)
+    else
+      clear_screen
+      puts 'Invalid selection'
+      choose_opponent_type
+    end
+      #make it clear screen to reprint intro but not show prompt for game-mode or choice
+  end
+
 
   def check_guess(guess)
     exact_matches(guess).to_i.times { print "🟢" }
@@ -79,26 +139,13 @@ class Game
   def game_over?(guess)
     if @code == guess
       puts "You Win!"
+      exit
     elsif @round_num > 12
       puts "You lose! 😜"
+      print "\n\n"
+      Display.display_code(@code)
       exit 
     end
   end
 
 end
-
-'Enter your guess: 1🟦 2🟨 3🟥 4🟪 5🟧'
-
-
-"Welcome to Mastermind!
-
-Mastermind is a code-breaking game for two players.
-
-In this version it's you against the computer - you get to choose whether to be
-code-breaker or code-maker.
-
-The code-breaker gets 12 attempts to guess the code set by the code-maker.
-
-Good luck!! You'll need it... The computer is good!
-
-Would you like to create the code to be guessed by the computer or guess the computers code (please enter 'create' or 'guess')"
