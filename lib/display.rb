@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# display class
+# Display class provides additional methods for displaying text in the console, including the display of guesses and clearing the console.
 class Display
   def self.display_guess(guess)
     guess.each do |gv|

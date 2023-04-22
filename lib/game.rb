@@ -5,7 +5,7 @@ require_relative 'player'
 require_relative 'display'
 require_relative 'ai'
 
-# game class
+# Game class is the main class that brings together the other classes to play the game. It initializes the game state, gets the game mode from the player, and then starts the game loop, where either a human player or the computer player inputs guesses and the game provides feedback until the game ends.
 class Game
   attr_accessor :code, :round_num, :mode, :player
 
@@ -14,6 +14,7 @@ class Game
     @computer = ""
     @code = []
     @round_num = 1
+    @mode = 0
     Board.intro
     play
   end
@@ -26,14 +27,18 @@ class Game
   def play_human_game
     loop do
       guess = @player.get_guess
-      until guess.length == 4
-        puts 'Code has four colors'
-        guess = player.get_guess
-      end
+      check_guess_length(guess)
       print "Round #{"%02d" % round_num} - "
       @round_num += 1
       Display.display_guess(player.guess)
       check_guess(player.guess)
+    end
+  end
+
+  def check_guess_length(guess)
+    until guess.length == 4
+      puts 'Code has four colors'
+      guess = player.get_guess
     end
   end
 
@@ -75,9 +80,9 @@ class Game
   end
 
   def check_guess(guess)
-    exact_matches(guess).times { print "🟢" }
-    inexact_matches(guess).times { print "⚪️" }
-    wrong_marker(guess).times { print "⚫️" }
+    exact_matches(guess).times { print '🟢' }
+    inexact_matches(guess).times { print '⚪️' }
+    wrong_marker(guess).times { print '⚫️' }
     puts "\n"
     game_over?(guess)
   end
@@ -85,9 +90,7 @@ class Game
   def exact_matches(guess)
     correct = 0
     @code.each_with_index do |v, i|
-      if v == guess[i]
-        correct += 1
-      end
+      correct += 1 if v == guess[i]
     end
     correct
   end

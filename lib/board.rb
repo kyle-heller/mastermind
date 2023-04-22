@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Handles board
+# Board class provides methods for displaying text and colors in the console
 class Board
   COLORS_AND_ASSETS = {
     1 => "🟦",

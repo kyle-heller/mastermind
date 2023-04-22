@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# AI Module
+# AI is responsible for generating computer guesses and reducing possible codes based on feedback
 class AI
   attr_accessor :consistent_codes, :used_guesses, :guess_count, :guess
 
@@ -64,9 +64,7 @@ class AI
           break
         end
       end
-      if match
-        @consistent_codes << possible_code
-      end
+      @consistent_codes << possible_code if match
     end
     @consistent_codes -= used_guesses
   end

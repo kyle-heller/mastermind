@@ -2,7 +2,7 @@
 require 'io/console'
 require_relative 'display'
 
-# player class
+# The Player class represents a player in a game. It has an instance variable for storing the player's guess and an instance variable for storing the list of possible guesses. The class has methods for getting the player's guess and for getting the code for the game. The get_guess method prompts the player to input their guess, and the get_code method prompts the player to input the code for the game, which consists of four colors.
 class Player
   attr_accessor :guess, :possible_guesses
 
