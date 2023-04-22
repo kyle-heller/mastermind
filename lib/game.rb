@@ -90,17 +90,12 @@ class Game
       Display.clear_screen
       Game.computer_intro
       Display.display_code(@code)
-    else
-      clear_screen
-      puts 'Invalid selection'
-      choose_opponent_type
     end
-      #make it clear screen to reprint intro but not show prompt for game-mode or choice
   end
 
 
   def check_guess(guess)
-    exact_matches(guess).to_i.times { print "🟢" }
+    exact_matches(guess).times { print "🟢" }
     inexact_matches(guess).times { print "⚪️" }
     wrong_marker(guess).times { print "⚫️" }
     puts "\n"
