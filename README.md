@@ -14,7 +14,7 @@
 A command-line version of the board game Mastermind, written in Ruby
 
 Play Online at Replit:
-[https://replit.com/@xsys/Tic-Tac-Toe#](https://replit.com/@xsys/Mastermind#)
+[https://replit.com/@xsys/Mastermind#](https://replit.com/@xsys/Mastermind#)
 
 Read more about the game here: https://en.wikipedia.org/wiki/Mastermind_(board_game)
 
