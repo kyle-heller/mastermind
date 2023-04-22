@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 require 'io/console'
 require_relative 'display'
-require 'pry-byebug'
 
 # player class
 class Player
@@ -13,35 +12,10 @@ class Player
     @possible_guesses = []
   end
 
-  def get_possible_codes
-    possible_codes = []
-    (1..5).each do |a|
-      (1..5).each do |b|
-        (1..5).each do |c|
-          (1..5).each do |d|
-            possible_codes << "#{a}#{b}#{c}#{d}"
-          end
-        end
-      end
-    end
-    @possible_guesses = possible_codes
-  end
-
   def get_guess
-    print "Guess: "
+    print 'Guess: '
     @guess = gets.chomp.chars
     # @guess = STDIN.noecho(&:gets).chomp.chars
-  end
-
-  def generate_guess(game)
-    @guess = @possible_guesses.sample.split("")
-    reduce_possible_guesses(game.code)
-    @guess
-  end
-
-  def reduce_possible_guesses(code)
-    @possible_guesses = @possible_guesses.sample(@possible_guesses.count / 1.5)
-    @possible_guesses << code.join("")
   end
 
   def get_code(game)
@@ -53,14 +27,6 @@ class Player
         puts "Code has four colors"
         guess = gets.chomp
       end
-      game.code = guess.split("")
+    game.code = guess.split('')
   end
 end
-
-
-# If you choose to modify the rules, you can provide the computer additional 
-# information about each guess. For example, you can start by having the 
-# computer guess randomly, but keep the ones that match exactly. You can 
-# add a little bit more intelligence to the computer player so that, if the 
-# computer has guessed the right color but the wrong position, its next guess 
-# will need to include that color somewhere.

@@ -10,89 +10,69 @@ class Game
   attr_accessor :code, :round_num, :mode, :player
 
   def initialize
-    # @code = ["1", "1", "4", "4"]
     @player = ""
+    @computer = ""
     @code = []
     @round_num = 1
-    Game.intro
+    Board.intro
     play
   end
 
   def play
     gamemode
-    if @mode == 1
-      loop do
-        guess = @player.get_guess
-        until guess.length == 4
-          puts "Code has four colors"
-          guess = player.get_guess
-        end
-        print "Round #{"%02d" % round_num} - "
-        @round_num += 1
-        Display.display_guess(player.guess)
-        check_guess(player.guess)
+    @mode == 1 ? play_human_game : play_computer_game
+  end
+
+  def play_human_game
+    loop do
+      guess = @player.get_guess
+      until guess.length == 4
+        puts 'Code has four colors'
+        guess = player.get_guess
       end
-    elsif @mode == 2
-      @player.get_possible_codes
-      loop do
-        sleep(1.7)
-        @player.generate_guess(self)
-        print "Round #{"%02d" % round_num} - "
-        @round_num += 1
-        Display.display_guess(player.guess)
-        check_guess(player.guess)
-      end
+      print "Round #{"%02d" % round_num} - "
+      @round_num += 1
+      Display.display_guess(player.guess)
+      check_guess(player.guess)
     end
   end
 
-  def self.intro
-    Display.clear_screen
-    puts "Welcome to Mastermind!\n\n"
-    puts "Mastermind is a code-breaking game for two players.\n\n"
-    puts "In this version it's you against the computer.\n\n"
-    puts "You get 12 attempts to guess the code set by the code-maker.\n\n"
-    puts "🟢 - correct colors in the correct positions\n"
-    puts "⚪️ - correct colors in the wrong positions\n\n"
-
-    puts "Enter your guess - 1🟦 2🟨 3🟥 4🟪 5🟧\n\n"
-  end
-
-  def self.computer_intro
-    Display.clear_screen
-    puts "Welcome to Mastermind!\n\n"
-    puts "Mastermind is a code-breaking game for two players.\n\n"
-    puts "In this version it's you against the computer.\n\n"
-    puts "You get 12 attempts to guess the code set by the code-maker.\n\n"
-    puts "🟢 - correct colors in the correct positions\n"
-    puts "⚪️ - correct colors in the wrong positions\n\n"
+  def play_computer_game
+    loop do
+      sleep(1.7)
+      @computer.generate_guess(self)
+      print "Round #{"%02d" % round_num} - "
+      @round_num += 1
+      Display.display_guess(@computer.guess)
+      check_guess(@computer.guess)
+      @computer.reduce_guesses(self)
+    end
   end
 
   def gamemode
-    puts "Please select gameplay mode:
-    1 - Code-breaker
-    2 - Code-maker"
+    Board.select_mode_text
     mode = gets.chomp
     until mode == "1" or mode == "2"
       Display.clear_screen
-      Game.intro
+      Board.intro
       gamemode
     end
     if mode == '1'
       @mode = 1
-      @player = Player.new('Human')
+      @player = Player.new('Codebreaker')
       AI.generate_code(self)
       Display.clear_screen
-      Game.intro
+      Board.intro
     elsif mode == '2'
       @mode = 2
-      @player = Player.new('Computer')
+      @player = Player.new('Codemaker')
       @player.get_code(self)
+      @computer = AI.new
       Display.clear_screen
-      Game.computer_intro
+      Board.computer_intro
       Display.display_code(@code)
     end
   end
-
 
   def check_guess(guess)
     exact_matches(guess).times { print "🟢" }
@@ -119,7 +99,7 @@ class Game
       code_counts[value] += 1
     end
     guess.each do |value|
-      if code_counts[value] > 0
+      if code_counts[value].positive?
         code_counts[value] -= 1
         inexact_matches_var += 1
       end
@@ -133,13 +113,24 @@ class Game
 
   def game_over?(guess)
     if @code == guess
-      puts "You Win!"
-      exit
+      puts @mode == 1 ? 'You Win!' : 'You lose! 😜'
+      play_again?
     elsif @round_num > 12
-      puts "You lose! 😜"
+      puts @mode == 1 ? 'You lose! 😜' : 'You Win!'
       print "\n\n"
       Display.display_code(@code)
-      exit 
+      play_again?
+    end
+  end
+
+  def play_again?
+    puts 'Play again? (yes/no)'
+    response = gets.chomp.downcase
+    if %w[yes y].include?(response)
+      Game.new
+      true
+    else
+      exit
     end
   end
 
