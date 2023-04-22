@@ -18,7 +18,7 @@ class AI
       (1..5).each do |b|
         (1..5).each do |c|
           (1..5).each do |d|
-            possible_codes << ["#{a}", "#{b}", "#{c}", "#{d}"]
+            possible_codes << [a.to_s, b.to_s, c.to_s, d.to_s]
           end
         end
       end
