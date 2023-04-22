@@ -39,7 +39,7 @@ class Game
 
   def play_computer_game
     loop do
-      sleep(1.7)
+      # sleep(1.7)
       @computer.generate_guess(self)
       print "Round #{"%02d" % round_num} - "
       @round_num += 1
@@ -113,12 +113,13 @@ class Game
 
   def game_over?(guess)
     if @code == guess
-      puts @mode == 1 ? 'You Win!' : 'You lose! 😜'
+      puts @mode == 1 ? "\nYou Win!\n\n" : "\nYou lose! 😜\n\n"
       play_again?
     elsif @round_num > 12
-      puts @mode == 1 ? 'You lose! 😜' : 'You Win!'
-      print "\n\n"
+      print "\n"
       Display.display_code(@code)
+      puts @mode == 1 ? "\nYou lose! 😜\n" : "\nYou Win!"
+      print "\n"
       play_again?
     end
   end

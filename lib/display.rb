@@ -21,7 +21,7 @@ class Display
       print Board.colors_and_assets[cv.to_i]
       print "  "
     end
-    print "\n\n"
+    print "\n"
   end
 
   def self.clear_screen
