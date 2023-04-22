@@ -2,10 +2,6 @@
 
 # display class
 class Display
-  def initialize
-    test
-  end
-
   def self.display_guess(guess)
     guess.each do |gv|
       # print "#{gv}-"
@@ -27,5 +23,4 @@ class Display
   def self.clear_screen
     system('clear') || system('cls')
   end
-
 end
