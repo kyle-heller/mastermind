@@ -39,7 +39,7 @@ class Game
 
   def play_computer_game
     loop do
-      # sleep(1.7)
+      sleep(1.7)
       @computer.generate_guess(self)
       print "Round #{"%02d" % round_num} - "
       @round_num += 1
