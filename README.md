@@ -9,14 +9,14 @@
 888  888  888"Y888888 88888P' "Y888 "Y8888 888    888  888  888888888  888 "Y88888
 ```
 
-![Mastermind screenshot](Mastermind.jpg "Mastermind screenshot")
-
 A command-line version of the board game Mastermind, written in Ruby
 
 Play Online at Replit:
 [https://replit.com/@xsys/Mastermind#](https://replit.com/@xsys/Mastermind#)
 
 Read more about the game here: https://en.wikipedia.org/wiki/Mastermind_(board_game)
+
+![Mastermind screenshot](Mastermind.jpg "Mastermind screenshot")
 
 ## Problems
 
