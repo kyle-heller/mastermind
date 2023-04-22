@@ -11,6 +11,8 @@
 
 ```
 
+![Mastermind screenshot](Mastermind.jpg "Mastermind screenshot")
+
 A command-line version of the board game Mastermind, written in Ruby
 
 Play Online at Replit:
