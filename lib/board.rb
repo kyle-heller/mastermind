@@ -10,9 +10,6 @@ class Board
     5 => "🟧",
   }
 
-  def initialize
-  end
-
   def self.colors_and_assets
     COLORS_AND_ASSETS
   end
